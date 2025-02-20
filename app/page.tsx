@@ -325,7 +325,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <img
-                src="https://github.com/admracdev/lp-racdev-main/tree/main/app/assets/IMG_5842.heic"
+                src="../assets/bruno-raniere.jpg"
                 alt="Founder"
                 className="rounded-lg shadow-xl"
               />
