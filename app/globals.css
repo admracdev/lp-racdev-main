@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 217 28% 8%;
+  --foreground: 210 20% 98%;
+  
+  --card: 217 28% 10%;
+  --card-foreground: 210 20% 98%;
+  
+  --popover: 217 28% 8%;
+  --popover-foreground: 210 20% 98%;
+  
+  --primary: 217 75% 35%;
+  --primary-foreground: 210 20% 98%;
+  
+  --secondary: 217 28% 12%;
+  --secondary-foreground: 210 20% 98%;
+  
+  --muted: 217 28% 12%;
+  --muted-foreground: 210 5% 84%;
+  
+  --accent: 217 75% 35%;
+  --accent-foreground: 210 20% 98%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 217 28% 12%;
+  --input: 217 28% 12%;
+  --ring: 217 75% 35%;
+
+  --radius: 0.5rem;
+
+  --scrollbar: 217 28% 12%;
+  --scrollbar-hover: 217 28% 15%;
+}
+
+.dark {
+  --background: 217 28% 8%;
+  --foreground: 210 20% 98%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.logo {
+  font-family: var(--font-silkscreen);
+  letter-spacing: 0.05em;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#3b82f6] to-[#60a5fa];
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-on-scroll.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-on-scroll.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.section {
+  @apply py-20 px-4 md:px-8;
+}
+
+.container {
+  @apply max-w-7xl mx-auto;
+}
+
+/* Enhanced brain icon animation */
+.brain-icon {
+  @apply text-[#60a5fa];
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.7));
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Enhanced hover effects */
+.hover-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 10px 30px -10px rgba(96, 165, 250, 0.3),
+    0 0 0 2px rgba(96, 165, 250, 0.1);
+}
+
+.hover-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1);
+}
+
+.hover-card:hover::after {
+  opacity: 1;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--scrollbar));
+  border-radius: 20px;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--scrollbar-hover));
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--scrollbar)) transparent;
+}
+
+/* Chat messages specific styling */
+.chat-message {
+  @apply p-4 rounded-lg mb-4 max-w-[80%];
+}
+
+.chat-message.ai {
+  @apply bg-secondary ml-0 mr-auto;
+}
+
+.chat-message.user {
+  @apply bg-primary ml-auto mr-0;
+}
+
+.chat-messages {
+  padding-right: 12px;
+  margin-right: -12px;
+}
