@@ -6,6 +6,7 @@ import { Brain, MessageSquare, ArrowRight, Github, Linkedin, Mail, Phone, Menu, 
 import { useEffect, useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from 'next/navigation';
+import photo from '../assets/brunoraniere.jpg';
 
 interface Message {
   text: string;
@@ -325,7 +326,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <img
-                src="../assets/bruno-raniere.jpg"
+                src="/brunoraniere.jpg"
                 alt="Founder"
                 className="rounded-lg shadow-xl"
               />
