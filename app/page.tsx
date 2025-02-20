@@ -325,7 +325,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a"
+                src="../assets/IMG_5842.heic"
                 alt="Founder"
                 className="rounded-lg shadow-xl"
               />
