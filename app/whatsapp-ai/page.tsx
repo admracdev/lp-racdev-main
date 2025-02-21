@@ -203,7 +203,7 @@ export default function WhatsAppAI() {
         </div>
       </section>
 
-      <section className="py-20 bg-card">
+      {/* <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
@@ -233,7 +233,7 @@ export default function WhatsAppAI() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="py-20 bg-background relative overflow-hidden">
         <div className="absolute inset-0">

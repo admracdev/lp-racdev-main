@@ -94,9 +94,8 @@ export default function Home() {
   const handleSendMessage = async () => {
     if (newMessage.trim() && !isLoading) {
       setIsLoading(true);
-      
+  
       try {
-        // Add user message to the chat
         const userMessage: Message = { 
           text: newMessage, 
           type: "user",
@@ -105,63 +104,72 @@ export default function Home() {
         const updatedMessages = [...messages, userMessage];
         setMessages(updatedMessages);
         setNewMessage("");
-
-        // Prepare the conversation context
+  
         const conversationContext = updatedMessages.map(msg => ({
           content: msg.text,
           role: msg.type === 'ai' ? 'assistant' : 'user',
           timestamp: msg.timestamp
         }));
-
-        // Send message to webhook
-        const response = await fetch('https://n8n-n8n.pxriso.easypanel.host/webhook/receive-message', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            myField: newMessage,
-            message: newMessage,
-            context: conversationContext,
+  
+        let success = false; // Indica se a requisição foi bem-sucedida
+        let aiResponseText = ""; // Armazena a resposta da IA
+  
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            const response = await fetch('https://n8n-n8n.pxriso.easypanel.host/webhook/receive-message', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                myField: newMessage,
+                message: newMessage,
+                context: conversationContext,
+                timestamp: Date.now()
+              })
+            });
+  
+            if (!response.ok) {
+              throw new Error(`Tentativa ${attempt} falhou - HTTP ${response.status}`);
+            }
+  
+            const data = await response.json();
+            aiResponseText = data.myField;
+  
+            if (!aiResponseText) {
+              throw new Error(`Tentativa ${attempt} falhou - Resposta inválida do servidor`);
+            }
+  
+            success = true; // Se chegou aqui, a requisição deu certo
+            break; // Sai do loop
+  
+          } catch (error) {
+            console.error(`Erro na tentativa ${attempt}:`, error);
+            if (attempt < 3) {
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1s antes de tentar novamente
+            }
+          }
+        }
+  
+        if (!success) {
+          setMessages(prev => [...prev, {
+            text: "Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente mais tarde.",
+            type: "ai",
             timestamp: Date.now()
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          }]);
+        } else {
+          setMessages(prev => [...prev, {
+            text: aiResponseText,
+            type: "ai",
+            timestamp: Date.now()
+          }]);
         }
-
-        const data = await response.json();
-        
-        // Extract the message from myField property
-        const aiResponseText = data.myField;
-        
-        if (!aiResponseText) {
-          throw new Error('Resposta inválida do servidor');
-        }
-
-        // Add AI response to chat
-        const aiMessage: Message = {
-          text: aiResponseText,
-          type: "ai",
-          timestamp: Date.now()
-        };
-        
-        setMessages(prev => [...prev, aiMessage]);
+  
       } catch (error) {
-        console.error('Error sending message:', error);
-        
-        // Add error message to chat
-        const errorMessage: Message = {
-          text: "Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente mais tarde.",
-          type: "ai",
-          timestamp: Date.now()
-        };
-        setMessages(prev => [...prev, errorMessage]);
+        console.error("Erro inesperado:", error);
       } finally {
         setIsLoading(false);
-        // Focus back on input after sending message
         inputRef.current?.focus();
       }
     }
