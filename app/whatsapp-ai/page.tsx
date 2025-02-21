@@ -107,7 +107,7 @@ export default function WhatsAppAI() {
           >
             <source src="https://player.vimeo.com/external/477721941.hd.mp4?s=1cd53d11d245b2639ad8e6641f1c8ce7f0db2feb&profile_id=175" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-background/90 backdrop-blur-sm"></div>
+          <div className="absolute backdrop-blur-sm"></div> {/* inset-0 bg-background/10 */}
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
